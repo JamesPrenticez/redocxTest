@@ -1,28 +1,71 @@
-# A starter webpack project for React
+https://www.npmjs.com/package/docx - Full write a word doc in js syntax... looks overly complex
+https://www.npmjs.com/package/docxtemplater - You need to write a template word doc => upload it => stick in some JSON => download it again...
+https://www.npmjs.com/package/redocx - I think this is going to be like react native - looks simple and intuitive yet less support than other options
 
-This is a starter project that uses webpack to transpile and bundle ES6 React code. To use, consider these steps:
+npm install --save-dev babel-cli babel-core babel-preset-env babel-preset-react babel-preset-stage-0 <= DONT BOTHER WITH THIS SHIT
+npm install --save react redocx
+npm install --save-dev babel-cli redocx <= YOU ONLY NEED THIS
 
-* Fork this repo
-* Rename your repo according to the app you're building
+Create a .babelrc
+{
+  "presets": [
+    "env",
+    "stage-0", ... This shit got depreciatednpm
+    "react"
+  ]
+}
 
-```sh
-git clone https://github.com/[your-account]/[your-app].git
-cd [your-app] && npm i
-```
+https://babeljs.io/docs/en/babel-preset-stage-0/
+https://github.com/babel/babel-upgrade
 
-To start the development server with a watcher that rebuilds your code, run `npm run dev`. The assets built by webpack are placed in `server/public`. This folder is defined as a static folder in an Express.js server that can be started with `npm run server`.
+npx babel-upgrade --write
+npx browserslist@latest --update-db
 
-Additional components should be placed in `client/components`.
+Update webpack.config.js with:
+  target: 'node',
+  node: {
+    fs: "empty",
+    child_process: "empty",
+ },
 
-## Separate client/server
+ Maybe worth doing not sure?
+ cd node_modules/redocx/
+ npm update
 
-The boilerplate is also set up to host the client using `webpack-dev-server` with hot module reloading etc. To use this method, in one terminal run:
-```sh
-npm run client
-```
-and in the other:
-```sh
-npm run server
-```
-The client will be available on http://localhost:8080 and the server on http://localhost:3000. Note that you will still need to manage CORS between the two, as they are on different ports.
+&&
 
+ cd node_modules/redocx/node_modules/cross-spawn
+ npm i -D spawn-sync
+
+ &&
+
+  cd node_modules/officegen
+  npm i -D readable-stream
+
+
+Update this shit and point it in the right direction
+C:\Users\JamesPrentice\GitHub\redocxTest\node_modules\officegen\lib\basicgen.js
+    require('stream').Transform || require('../node_modules/readable-stream/lib/_stream_transform')
+    require('stream').PassThrough || require('../node_modules/readable-stream/lib/_stream_passthrough')
+    require('stream').PassThrough || require('../node_modules/readable-stream/lib/_stream_passthrough')
+
+Install this:
+npm i webpack-node-externals --save
+
+Webpack loved it when I added this to the config:
+const nodeExternals = require('webpack-node-externals')
+module.exports = {
+  target: 'web',
+  externals: [nodeExternals()],
+  devServer: {
+    host: 'localhost',
+    port: 3000,
+    open: true,
+  },
+}
+
+chucked a script in the package json
+    "devon": "webpack-dev-server --mode development",
+
+Installed this....
+npm i -g strip-ansi
